@@ -64,6 +64,8 @@ const TodayScreen = () => {
 
       const status = json.weather[0].description;
 
+      console.log(status);
+
       switch (status) {
        case "clear sky":
         setWeatherStatus("날씨가 좋습니다.");
@@ -85,6 +87,9 @@ const TodayScreen = () => {
         break;
        case "shower rain":
         setWeatherStatus("비가 오고 있습니다.");
+        break;
+       case "moderate rain":
+        setWeatherStatus("적당히 비가 오고 있습니다.");
         break;
        case "rain":
         setWeatherStatus("비가 오고 있습니다.");
@@ -162,31 +167,6 @@ const TodayScreen = () => {
   })();
  }, []);
 
- //  return (
- //   <View style={styles.container}>
- //    <View style={styles.box_1}>
- //     <Text style={styles.timeText}>{viewTime}</Text>
- //     <Text style={styles.dateText}>{viewDate}</Text>
- //    </View>
- //    <View style={styles.box_2}>
- //     <Text style={styles.statusText}>{weatherStatus}</Text>
- //     <Text style={styles.tempText}>{currentTemp}℃</Text>
- //    </View>
- //    <View style={styles.box_3}>
- //     <Text style={styles.cityText}>{currentCity}city</Text>
- //    </View>
- //    <View style={styles.box_4}>
- //     <View style={styles.box_4_box}>
- //      <Text style={styles.tempGuideText}>최저기온</Text>
- //      <Text style={styles.minMaxTemp}>{minTemp}℃</Text>
- //     </View>
- //     <View style={styles.box_4_box}>
- //      <Text style={styles.tempGuideText}>최고기온</Text>
- //      <Text style={styles.minMaxTemp}>{maxTemp}℃</Text>
- //     </View>
- //    </View>
- //   </View>
- //  );
  return (
   <SafeAreaView style={styles.container}>
    <View style={styles.box_1}>
@@ -304,88 +284,5 @@ const styles = StyleSheet.create({
   fontWeight: "500",
  },
 });
-
-// const styles = StyleSheet.create({
-//  container: {
-//   flex: 1,
-//   alignItems: "center",
-//   justifyContent: "center",
-//  },
-//  box_1: {
-//   width: `100%`,
-//   flex: 1.5,
-//   alignItems: "center",
-//   justifyContent: "center",
-//   flexDirection: "column",
-//  },
-//  dateText: {
-//   fontSize: 19,
-//   color: `#718093`,
-//  },
-//  timeText: {
-//   fontSize: 34,
-//   fontWeight: `700`,
-//  },
-//  statusText: {
-//   fontSize: 22,
-//   fontWeight: `500`,
-//   marginBottom: 100,
-//  },
-//  box_2: {
-//   width: `70%`,
-//   flex: 3,
-//   alignItems: "center",
-//   justifyContent: "flex-end",
-//   flexDirection: "column",
-//   borderBottomWidth: 5,
-//   borderBottomColor: `#0b0b0b`,
-//   borderRadius: 10,
-//  },
-//  tempText: {
-//   fontWeight: `500`,
-//   fontSize: 90,
-//  },
-//  box_3: {
-//   width: `100%`,
-//   flex: 1,
-//   alignItems: "center",
-//   justifyContent: "flex-start",
-//   flexDirection: "column",
-//  },
-//  cityText: {
-//   fontSize: 20,
-//   fontWeight: `500`,
-//   marginTop: 10,
-//   color: `#718093`,
-//  },
-//  box_4: {
-//   width: `100%`,
-//   flex: 2,
-//   alignItems: "center",
-//   justifyContent: "space-around",
-//   flexDirection: "row",
-//   //   borderTopWidth: 3,
-//   //   borderColor: `#0b0b0b`,
-//   //   backgroundColor: `#38ada9`,
-//  },
-//  box_4_box: {
-//   width: `40%`,
-//   height: `100%`,
-//   alignItems: "center",
-//   justifyContent: "center",
-//   flex: 1,
-//  },
-//  tempGuideText: {
-//   fontSize: 26,
-//   fontWeight: `500`,
-//   padding: 5,
-//   //   color: `#fff`
-//  },
-//  minMaxTemp: {
-//   fontSize: 22,
-//   fontWeight: `400`,
-//   //   color: `#fff`
-//  },
-// });
 
 export default TodayScreen;
