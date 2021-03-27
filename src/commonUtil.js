@@ -2,7 +2,7 @@ export const getCurrentDate = () => {
  const D = new Date();
 
  const year = D.getFullYear();
- let month = D.getMonth();
+ let month = D.getMonth() + 1;
  let date = D.getDate();
  let day = D.getDay();
 
