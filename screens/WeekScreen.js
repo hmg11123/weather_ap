@@ -6,11 +6,23 @@ import {
  StyleSheet,
  SafeAreaView,
  TouchableOpacity,
+ FlatList,
 } from "react-native";
 
 const WEATHER_API_KEY = "c5477876d6955b2d33be8b747f1718f3";
 
+const Item = ({ time, temp }) => {
+ return (
+  <View style={styles.listBox}>
+   <Text>{time}</Text>
+   <Text>{temp}</Text>
+  </View>
+ );
+};
 const WeekScreen = () => {
+ const renderItem = ({ item }) => {
+  return <Item time={String(item.dateTime).split(` `)[1]} temp={item.temp} />;
+ };
  const [data0Date, setData0Date] = useState(null);
  const [data1Date, setData1Date] = useState(null);
  const [data2Date, setData2Date] = useState(null);
@@ -32,6 +44,8 @@ const WeekScreen = () => {
 
  const [btnName4, setBtnName4] = useState(null);
  const [btnFlag4, setBtnFlag4] = useState(true);
+
+ const [errMsg_S, setErrMsg_S] = useState("");
 
  const buttonClickHandler = (tab) => {
   setTab(tab);
@@ -183,6 +197,8 @@ const WeekScreen = () => {
    setBtnFlag4(false);
   }
  }
+
+ console.log(data0Date);
  return (
   <SafeAreaView style={styles.container}>
    <View style={styles.box1}>
@@ -227,13 +243,43 @@ const WeekScreen = () => {
      </TouchableOpacity>
     )}
    </View>
-   <View style={styles.box2}>
-    {tab === 0 && <Text>111111</Text>}
-    {tab === 1 && <Text>222222</Text>}
-    {tab === 2 && <Text>333333</Text>}
-    {tab === 3 && <Text>444444</Text>}
-    {tab === 4 && <Text>555555</Text>}
-   </View>
+   <SafeAreaView style={styles.box2}>
+    {tab === 0 && (
+     <FlatList
+      data={data0Date && data0Date}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.dataTime}
+     />
+    )}
+    {tab === 1 && (
+     <FlatList
+      data={data1Date && data1Date}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.dataTime}
+     />
+    )}
+    {tab === 2 && (
+     <FlatList
+      data={data2Date && data2Date}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.dataTime}
+     />
+    )}
+    {tab === 3 && (
+     <FlatList
+      data={data3Date && data3Date}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.dataTime}
+     />
+    )}
+    {tab === 4 && (
+     <FlatList
+      data={data4Date && data4Date}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.dataTime}
+     />
+    )}
+   </SafeAreaView>
   </SafeAreaView>
  );
 };
@@ -259,6 +305,31 @@ const styles = StyleSheet.create({
  standarBtn: {
   width: `19%`,
   height: 35,
+
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 1.5,
+  borderColor: `#fad390`,
+  borderWidth: 1,
+
+  shadowColor: "#999",
+  shadowOffset: {
+   width: 0,
+   height: 10,
+  },
+  shadowOpacity: 1,
+  shadowRadius: 5,
+
+  borderRadius: 7,
+
+  elevation: 18,
+ },
+ btnText: {
+  color: `#0b0b0b`,
+ },
+ activeBtn: {
+  width: `19%`,
+  height: 35,
   backgroundColor: `#fad390`,
 
   justifyContent: "center",
@@ -267,7 +338,7 @@ const styles = StyleSheet.create({
   shadowColor: "#000",
   shadowOffset: {
    width: 0,
-   height: 9,
+   height: 10,
   },
   shadowOpacity: 0.48,
   shadowRadius: 5,
@@ -276,28 +347,11 @@ const styles = StyleSheet.create({
 
   elevation: 18,
  },
- btnText: {
-  color: `#fff`,
- },
- activeBtn: {
-  width: `19%`,
-  height: 35,
-  backgroundColor: `#f6b93b`,
-
-  justifyContent: "center",
-  alignItems: "center",
-
-  shadowColor: "#000",
-  shadowOffset: {
-   width: 0,
-   height: 9,
-  },
-  shadowOpacity: 0.48,
-  shadowRadius: 5,
-
-  borderRadius: 7,
-
-  elevation: 18,
+ listBox: {
+  width: `100%`,
+  flexDirection: "row",
+  justifyContent: "space-around",
+  marginBottom: 10,
  },
 });
 

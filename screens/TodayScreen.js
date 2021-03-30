@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import * as Location from "expo-location";
 import { getCurrentDate } from "../src/commonUtil";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import TypeWriter from "react-native-typewriter";
 
 const WEATHER_API_KEY = "c5477876d6955b2d33be8b747f1718f3";
 
@@ -24,6 +26,9 @@ const TodayScreen = () => {
 
  const [windStatus, setWindStatus] = useState(``);
  const [humidity, setHumidity] = useState(``);
+
+ const [weatherImg, setWeatherImg] = useState(null);
+ const [weatherBackGround, setWeatherBackGround] = useState(1);
 
  setInterval(() => {
   const { currentDate, currentTime } = getCurrentDate();
@@ -55,7 +60,7 @@ const TodayScreen = () => {
       return res.json();
      })
      .then((json) => {
-      const rainTime = Object.keys(json.rain)[0];
+      // const rainTime = Object.keys(json.rain)[0];
       const windSpeed = String(json.wind.speed).split(".")[0];
       const temp = String(json.main.temp).split(".")[0];
       // 소수점을 기준으로 배열로 나눠지게함
@@ -63,86 +68,135 @@ const TodayScreen = () => {
       const maxTemp = String(json.main.temp_max).split(".")[0];
 
       const status = json.weather[0].description;
+      // const status = "few clouds";
 
       console.log(status);
 
       switch (status) {
        case "clear sky":
         setWeatherStatus("날씨가 좋습니다.");
+        setWeatherBackGround(0);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fsun.png?alt=media&token=a3e817c2-405d-4c32-8182-f9a5da76b536`
+        );
         break;
        case "few clouds":
         setWeatherStatus("조금 흐립니다.");
+        setWeatherBackGround(1);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fcloud-computing.png?alt=media&token=d6415adb-871d-428a-84a1-5ba70c902c5a`
+        );
         break;
        case "overcast clouds":
         setWeatherStatus("구름이 흐립니다.");
+        setWeatherBackGround(1);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fcloud-computing.png?alt=media&token=d6415adb-871d-428a-84a1-5ba70c902c5a`
+        );
         break;
        case "scattered clouds":
         setWeatherStatus("구름이 많습니다.");
+        setWeatherBackGround(1);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fclouds.png?alt=media&token=3371f929-d208-4cc6-9cd0-44e9f86edea9`
+        );
         break;
        case "broken clouds":
         setWeatherStatus("비가 올수도 있습니다.");
+        setWeatherBackGround(2);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fcloudy.png?alt=media&token=adf96b1e-07c4-45e7-b5fa-c787a48f6172`
+        );
         break;
        case "light rain":
         setWeatherStatus("약한 비가 올수도 있습니다.");
+        setWeatherBackGround(2);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
+        );
         break;
        case "shower rain":
         setWeatherStatus("비가 오고 있습니다.");
+        setWeatherBackGround(2);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
+        );
         break;
        case "moderate rain":
         setWeatherStatus("적당히 비가 오고 있습니다.");
+        setWeatherBackGround(2);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
+        );
         break;
        case "rain":
         setWeatherStatus("비가 오고 있습니다.");
+        setWeatherBackGround(2);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
+        );
         break;
        case "thunderstorm":
         setWeatherStatus("태풍이 오고 있습니다.");
+        setWeatherBackGround(3);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Ftwister.png?alt=media&token=eb9c2efe-2e62-46a5-ae00-454faea0823f`
+        );
         break;
        case "snow":
         setWeatherStatus("눈이 오고 있습니다.");
+        setWeatherBackGround(4);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fsnowflake.png?alt=media&token=51985323-e567-4181-9135-6b6ac2b275c4`
+        );
         break;
        case "mist":
         setWeatherStatus("안개가 심합니다.");
+        setWeatherBackGround(5);
+        setWeatherImg(
+         `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Ffog.png?alt=media&token=d231932d-ec8b-474f-aefd-2610d9ea9603`
+        );
         break;
       }
 
-      switch (rainTime) {
-       case "1h":
-        setRainStatus(`1시`);
-        break;
-       case "2h":
-        setRainStatus(`2시`);
-        break;
-       case "3h":
-        setRainStatus(`3시`);
-        break;
-       case "4h":
-        setRainStatus(`4시`);
-        break;
-       case "5h":
-        setRainStatus(`5시`);
-        break;
-       case "6h":
-        setRainStatus(`6시`);
-        break;
-       case "7h":
-        setRainStatus(`7시`);
-        break;
-       case "8h":
-        setRainStatus(`8시`);
-        break;
-       case "9h":
-        setRainStatus(`9시`);
-        break;
-       case "10h":
-        setRainStatus(`10시`);
-        break;
-       case "11h":
-        setRainStatus(`11시`);
-        break;
-       case "12h":
-        setRainStatus(`12시`);
-        break;
-      }
+      // switch (rainTime) {
+      //  case "1h":
+      //   setRainStatus(`1시`);
+      //   break;
+      //  case "2h":
+      //   setRainStatus(`2시`);
+      //   break;
+      //  case "3h":
+      //   setRainStatus(`3시`);
+      //   break;
+      //  case "4h":
+      //   setRainStatus(`4시`);
+      //   break;
+      //  case "5h":
+      //   setRainStatus(`5시`);
+      //   break;
+      //  case "6h":
+      //   setRainStatus(`6시`);
+      //   break;
+      //  case "7h":
+      //   setRainStatus(`7시`);
+      //   break;
+      //  case "8h":
+      //   setRainStatus(`8시`);
+      //   break;
+      //  case "9h":
+      //   setRainStatus(`9시`);
+      //   break;
+      //  case "10h":
+      //   setRainStatus(`10시`);
+      //   break;
+      //  case "11h":
+      //   setRainStatus(`11시`);
+      //   break;
+      //  case "12h":
+      //   setRainStatus(`12시`);
+      //   break;
+      // }
 
       /**
        * broken clouds
@@ -172,14 +226,45 @@ const TodayScreen = () => {
    <View style={styles.box_1}>
     <Text style={styles.box_1_font}>{currentCity}</Text>
    </View>
-   <View style={styles.box_2}>
-    <Text style={styles.box_2_font_1}>TODAY</Text>
-    <View style={styles.box_2_box}>
-     <Text style={styles.box_2_font_2}>{currentTemp}</Text>
-     <Text style={styles.box_2_font_3}>℃</Text>
+   <LinearGradient
+    colors={
+     weatherBackGround === 0
+      ? [`#F2994A`, `#F2C94C`]
+      : weatherBackGround === 1
+      ? [`#bdc3c7`, `#2c3e50`]
+      : weatherBackGround === 2
+      ? [`#076585`, `#fff`]
+      : weatherBackGround === 3
+      ? [`#283048`, `#859398`]
+      : weatherBackGround === 4
+      ? [`#E6DADA`, `#274046`]
+      : weatherBackGround === 5
+      ? [`#bdc3c7`, `#2c3e50`]
+      : ""
+    }
+    style={styles.box_2}
+   >
+    <View style={styles.weatherTextBox}>
+     <Text style={styles.box_2_font_1}>TODAY</Text>
+     <View style={styles.box_2_box}>
+      <Text style={styles.box_2_font_2}>{currentTemp}</Text>
+      <Text style={styles.box_2_font_3}>℃</Text>
+     </View>
+     <TypeWriter typing={1} style={styles.box_2_status_font}>
+      {weatherStatus}
+     </TypeWriter>
     </View>
-    <Text style={styles.box_2_status_font}>{weatherStatus}</Text>
-   </View>
+    <View style={styles.weatherImageBox}>
+     {weatherImg && (
+      <Image
+       style={styles.weatherImage}
+       source={{
+        uri: weatherImg,
+       }}
+      />
+     )}
+    </View>
+   </LinearGradient>
    <View style={styles.box_3}>
     <View style={styles.box_3_box}>
      <Text style={styles.box_3_box_font_1}>최저기온</Text>
@@ -224,8 +309,6 @@ const styles = StyleSheet.create({
   flex: 4,
   alignItems: "flex-start",
   justifyContent: "center",
-  paddingLeft: 50,
-  backgroundColor: "#f1c40f",
  },
  box_2_box: {
   flexDirection: "row",
@@ -282,6 +365,22 @@ const styles = StyleSheet.create({
   margin: 3,
   fontSize: 18,
   fontWeight: "500",
+ },
+ weatherImage: {
+  width: 200,
+  height: 200,
+ },
+ weatherImageBox: {
+  position: "absolute",
+  zIndex: 1,
+  marginLeft: 200,
+ },
+ weatherTextBox: {
+  zIndex: 3,
+  marginLeft: 30,
+ },
+ gradientBox: {
+  width: `100%`,
  },
 });
 
