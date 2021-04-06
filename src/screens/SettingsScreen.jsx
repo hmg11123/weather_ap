@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { createAppContainer } from "react-navigation";
 
 const SettingsScreen = () => {
  return (
@@ -17,4 +18,4 @@ const styles = StyleSheet.create({
  },
 });
 
-export default SettingsScreen;
+export default createAppContainer(SettingsScreen);

@@ -8,14 +8,15 @@ import {
  TouchableOpacity,
  FlatList,
 } from "react-native";
+import { createAppContainer } from "react-navigation";
 
 const WEATHER_API_KEY = "c5477876d6955b2d33be8b747f1718f3";
 
 const Item = ({ time, temp }) => {
  return (
   <View style={styles.listBox}>
-   <Text>{time}</Text>
-   <Text>{temp}</Text>
+   <Text style={styles.listText}>{time}</Text>
+   <Text style={styles.listText2}>{`${temp}℃`}</Text>
   </View>
  );
 };
@@ -349,10 +350,24 @@ const styles = StyleSheet.create({
  },
  listBox: {
   width: `100%`,
+  height: 50,
   flexDirection: "row",
   justifyContent: "space-around",
+  alignItems: "center",
   marginBottom: 10,
+  backgroundColor: `#F7EDDF`,
+  borderColor: `#fad390`,
+  borderBottomWidth: 5,
+ },
+ listText: {
+  fontSize: 20,
+  color: `#0b0b0b`,
+ },
+ listText2: {
+  fontSize: 20,
+  fontWeight: `700`,
+  color: `#0b0b0b`,
  },
 });
 
-export default WeekScreen;
+export default createAppContainer(WeekScreen);

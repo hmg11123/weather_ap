@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import * as Location from "expo-location";
-import { getCurrentDate } from "../src/commonUtil";
+import { getCurrentDate } from "../commonUtil";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import TypeWriter from "react-native-typewriter";
+import { createAppContainer } from "react-navigation";
 
 const WEATHER_API_KEY = "c5477876d6955b2d33be8b747f1718f3";
 
@@ -384,4 +385,4 @@ const styles = StyleSheet.create({
  },
 });
 
-export default TodayScreen;
+export default createAppContainer(TodayScreen);
