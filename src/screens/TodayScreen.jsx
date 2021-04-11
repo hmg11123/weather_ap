@@ -97,7 +97,7 @@ const TodayScreen = () => {
         break;
        case "scattered clouds":
         setWeatherStatus("구름이 많습니다.");
-        setWeatherBackGround(1);
+        setWeatherBackGround(2);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fclouds.png?alt=media&token=3371f929-d208-4cc6-9cd0-44e9f86edea9`
         );
@@ -111,49 +111,49 @@ const TodayScreen = () => {
         break;
        case "light rain":
         setWeatherStatus("약한 비가 올수도 있습니다.");
-        setWeatherBackGround(2);
+        setWeatherBackGround(3);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
         );
         break;
        case "shower rain":
         setWeatherStatus("비가 오고 있습니다.");
-        setWeatherBackGround(2);
+        setWeatherBackGround(3);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
         );
         break;
        case "moderate rain":
         setWeatherStatus("적당히 비가 오고 있습니다.");
-        setWeatherBackGround(2);
+        setWeatherBackGround(3);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
         );
         break;
        case "rain":
         setWeatherStatus("비가 오고 있습니다.");
-        setWeatherBackGround(2);
+        setWeatherBackGround(3);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Frain.png?alt=media&token=faeb844e-4c8d-4f2e-84b8-b0445a566303`
         );
         break;
        case "thunderstorm":
         setWeatherStatus("태풍이 오고 있습니다.");
-        setWeatherBackGround(3);
+        setWeatherBackGround(4);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Ftwister.png?alt=media&token=eb9c2efe-2e62-46a5-ae00-454faea0823f`
         );
         break;
        case "snow":
         setWeatherStatus("눈이 오고 있습니다.");
-        setWeatherBackGround(4);
+        setWeatherBackGround(5);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Fsnowflake.png?alt=media&token=51985323-e567-4181-9135-6b6ac2b275c4`
         );
         break;
        case "mist":
         setWeatherStatus("안개가 심합니다.");
-        setWeatherBackGround(5);
+        setWeatherBackGround(6);
         setWeatherImg(
          `https://firebasestorage.googleapis.com/v0/b/hmg-fileserver.appspot.com/o/WEATHER%2Ffog.png?alt=media&token=d231932d-ec8b-474f-aefd-2610d9ea9603`
         );
@@ -223,74 +223,88 @@ const TodayScreen = () => {
  }, []);
 
  return (
-  <SafeAreaView style={styles.container}>
-   <View style={styles.box_1}>
-    <Text style={styles.box_1_font}>{currentCity}</Text>
-   </View>
+  <View style={styles.container}>
+   {/** -----------------------------   box-2   -------------------------------- */}
    <LinearGradient
     colors={
      weatherBackGround === 0
       ? [`#F2994A`, `#F2C94C`]
       : weatherBackGround === 1
-      ? [`#bdc3c7`, `#2c3e50`]
+      ? [`#bdc3c7`, `#F2994A`]
       : weatherBackGround === 2
-      ? [`#076585`, `#fff`]
+      ? [`#bdc3c7`, `#2c3e50`]
       : weatherBackGround === 3
-      ? [`#283048`, `#859398`]
+      ? [`#076585`, `#fff`]
       : weatherBackGround === 4
-      ? [`#E6DADA`, `#274046`]
+      ? [`#283048`, `#859398`]
       : weatherBackGround === 5
+      ? [`#E6DADA`, `#274046`]
+      : weatherBackGround === 6
       ? [`#bdc3c7`, `#2c3e50`]
       : ""
     }
     style={styles.box_2}
    >
-    <View style={styles.weatherTextBox}>
-     <Text style={styles.box_2_font_1}>TODAY</Text>
-     <View style={styles.box_2_box}>
-      <Text style={styles.box_2_font_2}>{currentTemp}</Text>
-      <Text style={styles.box_2_font_3}>℃</Text>
-     </View>
-     <TypeWriter typing={1} style={styles.box_2_status_font}>
-      {weatherStatus}
-     </TypeWriter>
+    {/** -----------------------------   box-1   -------------------------------- */}
+    <View style={styles.box_1}>
+     {/* <Text style={styles.timeText}>{viewTime}</Text>
+     <Text style={styles.dateText}>{viewDate}</Text> */}
+     <Text style={styles.box_1_font}>{currentCity}</Text>
     </View>
-    <View style={styles.weatherImageBox}>
-     {weatherImg && (
-      <Image
-       style={styles.weatherImage}
-       source={{
-        uri: weatherImg,
-       }}
-      />
-     )}
+    {/** -----------------------------   top   -------------------------------- */}
+    <View style={styles.box_top}>
+     <View style={styles.weatherTextBox}>
+      <Text style={styles.box_2_font_1}>TODAY</Text>
+      <View style={styles.box_2_box}>
+       <Text style={styles.box_2_font_2}>{currentTemp}</Text>
+       <Text style={styles.box_2_font_3}>℃</Text>
+      </View>
+      <TypeWriter typing={1} style={styles.box_2_status_font}>
+       {weatherStatus}
+      </TypeWriter>
+     </View>
+     <View style={styles.weatherImageBox}>
+      {weatherImg && (
+       <Image
+        style={styles.weatherImage}
+        source={{
+         uri: weatherImg,
+        }}
+       />
+      )}
+     </View>
+    </View>
+    {/** -----------------------------   bottom   -------------------------------- */}
+    <View style={styles.box_bottom}>
+     {/** -----------------------------   box-3   -------------------------------- */}
+     <View style={styles.box_3}>
+      <View style={styles.box_3_box}>
+       <Text style={styles.box_3_box_font_1}>최저기온</Text>
+       <Text style={styles.box_3_box_font2}>{minTemp}℃</Text>
+      </View>
+      <View style={styles.box_3_box}>
+       <Text style={styles.box_3_box_font_1}>최고기온</Text>
+       <Text style={styles.box_3_box_font2}>{maxTemp}℃</Text>
+      </View>
+     </View>
+     {/** -----------------------------   box-4   -------------------------------- */}
+     <View style={styles.box_4}>
+      <View style={styles.box_4_box}>
+       <Feather name="wind" size={30} />
+       <Text style={styles.box_4_box_font}>{windStatus}m/s</Text>
+      </View>
+      <View style={styles.box_4_box}>
+       <Ionicons name="water-outline" size={30} />
+       <Text style={styles.box_4_box_font}>{humidity}%</Text>
+      </View>
+      <View style={styles.box_4_box}>
+       <Ionicons name="umbrella-outline" size={30} />
+       <Text style={styles.box_4_box_font}>{rainStatus}</Text>
+      </View>
+     </View>
     </View>
    </LinearGradient>
-   <View style={styles.box_3}>
-    <View style={styles.box_3_box}>
-     <Text style={styles.box_3_box_font_1}>최저기온</Text>
-     <Text style={styles.box_3_box_font2}>{minTemp}℃</Text>
-    </View>
-    <View style={styles.box_3_box}>
-     <Text style={styles.box_3_box_font_1}>최고기온</Text>
-     <Text style={styles.box_3_box_font2}>{maxTemp}℃</Text>
-    </View>
-   </View>
-   <View style={styles.box_4}>
-    <View style={styles.box_4_box}>
-     <Feather name="wind" size={30} />
-     <Text style={styles.box_4_box_font}>{windStatus} km/h</Text>
-    </View>
-    <View style={styles.box_4_box}>
-     <Ionicons name="water-outline" size={30} />
-     <Text style={styles.box_4_box_font}>{humidity}%</Text>
-    </View>
-    <View style={styles.box_4_box}>
-     <Ionicons name="umbrella-outline" size={30} />
-     <Text style={styles.box_4_box_font}>{rainStatus}</Text>
-    </View>
-   </View>
-  </SafeAreaView>
+  </View>
  );
 };
 
@@ -300,11 +314,14 @@ const styles = StyleSheet.create({
  },
  box_1: {
   flex: 0.5,
+  width: `100%`,
   alignItems: "center",
   justifyContent: "center",
+  marginTop: 20,
  },
  box_1_font: {
-  fontSize: 18,
+  fontSize: 25,
+  fontWeight: `600`,
  },
  box_2: {
   flex: 4,
@@ -382,6 +399,33 @@ const styles = StyleSheet.create({
  },
  gradientBox: {
   width: `100%`,
+ },
+ box_top: {
+  flex: 4,
+  justifyContent: "center",
+ },
+ box_bottom: {
+  flex: 1.5,
+  width: `100%`,
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  backgroundColor: `#fff`,
+
+  shadowColor: "#000",
+  shadowOffset: {
+   width: 0,
+   height: 7,
+  },
+  shadowOpacity: 0.43,
+  shadowRadius: 9.51,
+
+  elevation: 15,
+ },
+ timeText: {
+  fontSize: 25,
+ },
+ dateText: {
+  fontSize: 25,
  },
 });
 

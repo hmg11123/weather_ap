@@ -14,9 +14,11 @@ const WEATHER_API_KEY = "c5477876d6955b2d33be8b747f1718f3";
 
 const Item = ({ time, temp }) => {
  return (
-  <View style={styles.listBox}>
-   <Text style={styles.listText}>{time}</Text>
-   <Text style={styles.listText2}>{`${temp}℃`}</Text>
+  <View style={styles.list}>
+   <View style={styles.listBox}>
+    <Text style={styles.listText}>{`${time.substring(0, 2)}시`}</Text>
+    <Text style={styles.listText2}>{`${temp}℃`}</Text>
+   </View>
   </View>
  );
 };
@@ -29,6 +31,26 @@ const WeekScreen = () => {
  const [data2Date, setData2Date] = useState(null);
  const [data3Date, setData3Date] = useState(null);
  const [data4Date, setData4Date] = useState(null);
+ const [temp0Date, setTemp0Date] = useState({
+  maxTemp: 0,
+  minTemp: 0,
+ });
+ const [temp1Date, setTemp1Date] = useState({
+  maxTemp: null,
+  minTemp: null,
+ });
+ const [temp2Date, setTemp2Date] = useState({
+  maxTemp: null,
+  minTemp: null,
+ });
+ const [temp3Date, setTemp3Date] = useState({
+  maxTemp: null,
+  minTemp: null,
+ });
+ const [temp4Date, setTemp4Date] = useState({
+  maxTemp: null,
+  minTemp: null,
+ });
 
  const [tab, setTab] = useState(0);
  const [btnName0, setBtnName0] = useState(null);
@@ -113,16 +135,21 @@ const WeekScreen = () => {
       let arr2 = [];
       let arr3 = [];
       let arr4 = [];
+      let tempArr0 = [];
+      let tempArr1 = [];
+      let tempArr2 = [];
+      let tempArr3 = [];
+      let tempArr4 = [];
       json.list.map((data) => {
        const compareData = data.dt_txt.split(` `)[0];
-       console.log(compareData);
 
        switch (compareData) {
         case data0:
          const prevData = {
-          temp: String(data.main.temp).split(`.`)[0],
+          temp: parseInt(String(data.main.temp).split(`.`)[0]),
           dateTime: data.dt_txt,
          };
+         tempArr0.push(parseInt(String(data.main.temp).split(`.`)[0]));
          arr0.push(prevData);
          break;
         case data1:
@@ -130,6 +157,7 @@ const WeekScreen = () => {
           temp: String(data.main.temp).split(`.`)[0],
           dateTime: data.dt_txt,
          };
+         tempArr1.push(parseInt(String(data.main.temp).split(`.`)[0]));
          arr1.push(prevData1);
          break;
         case data2:
@@ -137,6 +165,7 @@ const WeekScreen = () => {
           temp: String(data.main.temp).split(`.`)[0],
           dateTime: data.dt_txt,
          };
+         tempArr2.push(parseInt(String(data.main.temp).split(`.`)[0]));
          arr2.push(prevData2);
          break;
         case data3:
@@ -144,6 +173,7 @@ const WeekScreen = () => {
           temp: String(data.main.temp).split(`.`)[0],
           dateTime: data.dt_txt,
          };
+         tempArr3.push(parseInt(String(data.main.temp).split(`.`)[0]));
          arr3.push(prevData3);
          break;
         case data4:
@@ -151,6 +181,7 @@ const WeekScreen = () => {
           temp: String(data.main.temp).split(`.`)[0],
           dateTime: data.dt_txt,
          };
+         tempArr4.push(parseInt(String(data.main.temp).split(`.`)[0]));
          arr4.push(prevData4);
          break;
        }
@@ -160,6 +191,27 @@ const WeekScreen = () => {
       setData2Date(arr2);
       setData3Date(arr3);
       setData4Date(arr4);
+      // ===================
+      setTemp0Date({
+       maxTemp: Math.max.apply(null, tempArr0),
+       minTemp: Math.min.apply(null, tempArr0),
+      });
+      setTemp1Date({
+       maxTemp: Math.max.apply(null, tempArr1),
+       minTemp: Math.min.apply(null, tempArr1),
+      });
+      setTemp2Date({
+       maxTemp: Math.max.apply(null, tempArr2),
+       minTemp: Math.min.apply(null, tempArr2),
+      });
+      setTemp3Date({
+       maxTemp: Math.max.apply(null, tempArr3),
+       minTemp: Math.min.apply(null, tempArr3),
+      });
+      setTemp4Date({
+       maxTemp: Math.max.apply(null, tempArr4),
+       minTemp: Math.min.apply(null, tempArr4),
+      });
      });
    } catch (e) {
     console.log(e);
@@ -199,7 +251,6 @@ const WeekScreen = () => {
   }
  }
 
- console.log(data0Date);
  return (
   <SafeAreaView style={styles.container}>
    <View style={styles.box1}>
@@ -246,39 +297,124 @@ const WeekScreen = () => {
    </View>
    <SafeAreaView style={styles.box2}>
     {tab === 0 && (
-     <FlatList
-      data={data0Date && data0Date}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.dataTime}
-     />
+     <View style={styles.tabContainer}>
+      <View style={styles.tabTapBox}>
+       <View style={styles.tabTitleBox}>
+        <Text style={styles.tabDataTitle}>{btnName0}</Text>
+       </View>
+       <View style={styles.tabDataBox}>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최저기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp0Date.minTemp}℃`}</Text>
+        </View>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최고기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp0Date.maxTemp}℃`}</Text>
+        </View>
+       </View>
+      </View>
+      <FlatList
+       data={data0Date && data0Date}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.dataTime}
+      />
+     </View>
     )}
     {tab === 1 && (
-     <FlatList
-      data={data1Date && data1Date}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.dataTime}
-     />
+     <View style={styles.tabContainer}>
+      <View style={styles.tabTapBox}>
+       <View style={styles.tabTitleBox}>
+        <Text style={styles.tabDataTitle}>{btnName1}</Text>
+       </View>
+       <View style={styles.tabDataBox}>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최저기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp1Date.minTemp}℃`}</Text>
+        </View>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최고기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp1Date.maxTemp}℃`}</Text>
+        </View>
+       </View>
+      </View>
+      <FlatList
+       data={data1Date && data1Date}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.dataTime}
+      />
+     </View>
     )}
     {tab === 2 && (
-     <FlatList
-      data={data2Date && data2Date}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.dataTime}
-     />
+     <View style={styles.tabContainer}>
+      <View style={styles.tabTapBox}>
+       <View style={styles.tabTitleBox}>
+        <Text style={styles.tabDataTitle}>{btnName2}</Text>
+       </View>
+       <View style={styles.tabDataBox}>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최저기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp2Date.minTemp}℃`}</Text>
+        </View>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최고기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp2Date.maxTemp}℃`}</Text>
+        </View>
+       </View>
+      </View>
+      <FlatList
+       data={data2Date && data2Date}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.dataTime}
+      />
+     </View>
     )}
     {tab === 3 && (
-     <FlatList
-      data={data3Date && data3Date}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.dataTime}
-     />
+     <View style={styles.tabContainer}>
+      <View style={styles.tabTapBox}>
+       <View style={styles.tabTitleBox}>
+        <Text style={styles.tabDataTitle}>{btnName3}</Text>
+       </View>
+       <View style={styles.tabDataBox}>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최저기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp3Date.minTemp}℃`}</Text>
+        </View>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최고기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp3Date.maxTemp}℃`}</Text>
+        </View>
+       </View>
+      </View>
+      <FlatList
+       data={data3Date && data3Date}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.dataTime}
+      />
+     </View>
     )}
     {tab === 4 && (
-     <FlatList
-      data={data4Date && data4Date}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.dataTime}
-     />
+     <View style={styles.tabContainer}>
+      <View style={styles.tabTapBox}>
+       <View style={styles.tabTitleBox}>
+        <Text style={styles.tabDataTitle}>{btnName4}</Text>
+       </View>
+       <View style={styles.tabDataBox}>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최저기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp4Date.minTemp}℃`}</Text>
+        </View>
+        <View style={styles.tabDataBoxBox}>
+         <Text style={styles.tabDataText1}>최고기온</Text>
+         <Text style={styles.tabDataText2}>{`${temp4Date.maxTemp}℃`}</Text>
+        </View>
+       </View>
+      </View>
+      <FlatList
+       data={data4Date && data4Date}
+       renderItem={renderItem}
+       keyExtractor={(item) => item.dataTime}
+      />
+     </View>
     )}
    </SafeAreaView>
   </SafeAreaView>
@@ -302,6 +438,8 @@ const styles = StyleSheet.create({
  box2: {
   width: `100%`,
   flex: 4,
+  // justifyContent: "center",
+  alignItems: "center",
  },
  standarBtn: {
   width: `19%`,
@@ -335,7 +473,6 @@ const styles = StyleSheet.create({
 
   justifyContent: "center",
   alignItems: "center",
-
   shadowColor: "#000",
   shadowOffset: {
    width: 0,
@@ -348,16 +485,22 @@ const styles = StyleSheet.create({
 
   elevation: 18,
  },
- listBox: {
+ list: {
   width: `100%`,
+  justifyContent: "center",
+  alignItems: "center",
+ },
+ listBox: {
+  width: `80%`,
   height: 50,
   flexDirection: "row",
   justifyContent: "space-around",
   alignItems: "center",
   marginBottom: 10,
   backgroundColor: `#F7EDDF`,
-  borderColor: `#fad390`,
-  borderBottomWidth: 5,
+  borderRadius: 10,
+  // borderColor: `#fad390`,
+  // borderBottomWidth: 5,
  },
  listText: {
   fontSize: 20,
@@ -367,6 +510,43 @@ const styles = StyleSheet.create({
   fontSize: 20,
   fontWeight: `700`,
   color: `#0b0b0b`,
+ },
+ tabContainer: {
+  flex: 1,
+ },
+ tabTopBox: {
+  flex: 3,
+  justifyContent: "center",
+  alignItems: "center",
+ },
+ tabTitleBox: {
+  justifyContent: "center",
+  alignItems: "center",
+ },
+ tabDataBox: {
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 50,
+  marginBottom: 30,
+ },
+ tabDataBoxBox: {
+  width: "50%",
+  justifyContent: "center",
+  alignItems: "center",
+ },
+ tabDataTitle: {
+  fontSize: 40,
+  fontWeight: `600`,
+ },
+ tabDataText1: {
+  fontSize: 30,
+  fontWeight: `600`,
+ },
+ tabDataText2: {
+  fontSize: 40,
+  fontWeight: `600`,
+  marginTop: 10,
  },
 });
 
